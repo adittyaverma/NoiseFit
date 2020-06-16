@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4" src="https://cdn.shopify.com/s/files/1/0997/6284/files/noise_icon_black_on_white.svg" alt="" width="72" height="72">
+    <h2>Hi, Here is your list of claimed Coupons</h2>
+    <a href="/">Home</a>
+    <br/>
+		------------------------------------------------------------------------------------------
+		<br/><br/>
+	  <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Claim Points</th>
+          <th>Claim Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @coupons.each do |coupon| %>
+        <tr>
+        	<%coupon = Coupon.find(coupon.coupon_id)%>
+          <td><%=coupon.title%></td>
+          <td><%=coupon.desc%></td>
+          <td><%=coupon.points%></td>
+          <td><%=coupon.created_at.strftime('%d-%m-%Y')%></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table> 
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4" src="https://cdn.shopify.com/s/files/1/0997/6284/files/noise_icon_black_on_white.svg" alt="" width="72" height="72">
+    <h2>Welcome to User Point System</h2>
+    <% if current_user.present? %>
+    <%= link_to "Sign out", destroy_user_session_path, :method => :delete, class: "btn btn-info btn-xs" %>
+      <br/><br/>
+      <div>
+        <p><strong>Total Points : <%=@point.try(:points).to_i%></strong></p>
+      </div>
+      <div>
+        <p><strong>Claimed Coupons : <%=@user_coupons.count%></strong>
+        <a href="/show-coupon">Check Here</a>
+        </p>
+      </div>
+    </table>
+
+    <% else %>
+      <a class="btn btn-info btn-xs" href="/users/sign_in">Login</a>
+    <% end %>
+    <br/>
+-------------------------------------------------------------------------------
+    <div>
+
+    <h2>Avaiable Coupons</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Points</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @coupons.each do |coupon| %>
+          <tr>
+            <td><%=coupon.title%></td>
+            <td><%=coupon.desc%></td>
+            <td><%=coupon.points%></td>
+            <td>
+            <% if current_user.present? %>
+              <% if @point.try(:points).to_i > coupon.points %>
+                <a class="btn btn-success btn-sm" onclick="if (confirm('Are you sure, you want to claim this coupon?')){return true;}else{event.stopPropagation(); event.preventDefault();};" href="/claim-point?coupon_id=<%=coupon.id%>&points=<%=coupon.points%>">Claim it</a></td>
+              <% else %>
+                <a class="btn btn-primary btn-sm" href="/earn-point">Earn it</a></td>
+              <% end %>
+            <% else %>
+              <a class="btn btn-info btn-xs" href="/users/sign_in">Login to Claim</a>
+            <% end %>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
